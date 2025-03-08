@@ -3,7 +3,6 @@ import torch.nn as nn
 import torch.optim as optim
 import numpy as np
 import matplotlib
-%matplotlib inline
 import matplotlib.pyplot as plt
 from timeit import default_timer as timer
 
@@ -32,6 +31,7 @@ describe_tensor(x, name='x')
 describe_tensor(y, name='y')
 
 Z = x * y
+#Z.retain_grad()  # Esto permite que Z almacene gradientes
 describe_tensor(Z, name='Z')
 
 # Now we can't do the z.backward() because there is no node requiring gradients
@@ -44,7 +44,7 @@ Z.backward()
 
 describe_tensor(x, 'x')
 describe_tensor(y, 'y')
-describe_tensor(z, 'z')
+describe_tensor(Z, 'z')
 
 # Now, in the tensor 'x', in the grad field we have tensor(2.)
 # That's because d(x * y)/dx = y = 2
@@ -139,6 +139,7 @@ def train(network, optimizer, loss_fn, num_iters):
 	plt.plot(loss_history)
 	plt.xlabel('Niter')
 	plt.ylabel('Loss')
+	plt.show()
 
 net = MyNet()
 # we will take stochastic gradient descent (SGD) to exemplify the training loop of a neural network
